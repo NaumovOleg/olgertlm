@@ -1,0 +1,1 @@
+{"vocab_size": 41, "maxlen": 20, "num_layers": 2, "embed_dim": 64, "num_heads": 4, "ff_dim": 128}
