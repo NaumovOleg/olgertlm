@@ -3,6 +3,14 @@ import subprocess
 import os
 
 
+def stream_logs():
+    with open("training.log", "r", encoding="utf-8") as f:
+        logs = ""
+        for line in f:
+            logs += line
+            yield logs
+
+
 def run_training():
     process = subprocess.Popen(
         ["python", "train.py"],
@@ -22,7 +30,6 @@ def run_training():
     yield logs  # final output
 
 
-# 2. File download function (returns saved files)
 def get_artifacts():
     return ["saved/gpt.weights.h5", "saved/gpt_config.json", "saved/tokenizer.json"]
 

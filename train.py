@@ -31,11 +31,14 @@ model = GPTModel(
     ff_dim=FF_DIM,
 )
 loss_fn = SparseCategoricalCrossentropy(from_logits=True)
-model.compile(optimizer="adam", loss=loss_fn)
+model.compile(
+    optimizer="adam",
+    loss=loss_fn,
+)
 
 # Обучение модели
 print("Начинаем обучение...")
-model.fit(X, y, epochs=EPOCHS, batch_size=BATCH_SIZE)
+model.fit(X, y, epochs=EPOCHS, batch_size=BATCH_SIZE, verbose=2)
 
 # Сохраняем модель (веса) и конфигурацию
 model.save_weights("./saved/gpt.weights.h5")
