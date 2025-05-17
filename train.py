@@ -8,7 +8,7 @@ import keras
 SparseCategoricalCrossentropy = keras.losses.SparseCategoricalCrossentropy
 
 # Параметры
-DATA_PATH = "datasets/text.txt"
+DATA_PATH = "datasets/sample_data.txt"
 MAXLEN = 20
 NUM_LAYERS = 2
 EMBED_DIM = 64
