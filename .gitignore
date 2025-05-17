@@ -1,2 +1,3 @@
 .venv
-./saved
+saved/*.h5
+saved/*.json
