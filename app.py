@@ -29,5 +29,5 @@ with gr.Blocks() as demo:
     # Запускаем обучение и выводим логи при загрузке страницы
     demo.load(run_training_live, outputs=status)
 
-if __name__ == "__main__":
-    demo.launch()
+# if __name__ == "__main__":
+#     demo.launch()
