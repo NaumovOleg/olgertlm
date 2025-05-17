@@ -8,13 +8,13 @@ import keras
 SparseCategoricalCrossentropy = keras.losses.SparseCategoricalCrossentropy
 
 # Параметры
-DATA_PATH = "datasets/sample_data.txt"
+DATA_PATH = "datasets/shakespere.txt"
 MAXLEN = 20
 NUM_LAYERS = 2
 EMBED_DIM = 64
 NUM_HEADS = 4
 FF_DIM = 128
-EPOCHS = 10
+EPOCHS = 1000
 BATCH_SIZE = 4
 
 # Загрузка и подготовка данных
