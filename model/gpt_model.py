@@ -9,6 +9,7 @@ Dense = keras.layers.Dense
 
 
 class GPTModel(Model):
+    """GPTModel"""
 
     def __init__(
         self, vocab_size, maxlen, num_layers, embed_dim, num_heads, ff_dim, **kwarg
@@ -40,14 +41,12 @@ class GPTModel(Model):
         for block in self.blocks:
             x = block(x, training=training)
         x = self.norm(x)
-        x = x[:, -1, :]  # Берём только последний токен
+        x = x[:, -1, :]
         logits = self.final_dense(x)
         return logits
 
     def get_config(self):
-        # Start with parent config
         config = super().get_config()
-        # Add custom config fields
         config.update(
             {
                 "vocab_size": self.vocab_size,
@@ -69,5 +68,5 @@ class GPTModel(Model):
             embed_dim=config.pop("embed_dim"),
             num_heads=config.pop("num_heads"),
             ff_dim=config.pop("ff_dim"),
-            **config  # remaining args like name, trainable, etc.
+            **config
         )

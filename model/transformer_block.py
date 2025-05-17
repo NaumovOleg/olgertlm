@@ -25,16 +25,16 @@ class TransformerBlock(Layer):
         self.dropout2 = Dropout(rate)
 
     def call(self, inputs, training):
-        # inputs: (batch_size, seq_len, embed_dim)
+
         batch_size = tf.shape(inputs)[0]
         seq_len = tf.shape(inputs)[1]
-        # Создаём causal mask (нижнетреугольная матрица)
+
         i = tf.range(seq_len)[:, None]
         j = tf.range(seq_len)
-        mask = i >= j - seq_len + seq_len  # True для j<=i
+        mask = i >= j - seq_len + seq_len
         mask = tf.cast(mask, tf.bool)
         mask = tf.reshape(mask, (1, seq_len, seq_len))
-        mask = tf.tile(mask, (batch_size, 1, 1))  # (batch_size, seq_len, seq_len)
+        mask = tf.tile(mask, (batch_size, 1, 1))
 
         # Self-attention
         attn_output = self.att(

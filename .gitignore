@@ -1,3 +1,5 @@
 .venv
 saved/*.h5
 saved/*.json
+**/__pycache__/
+__pycache__/

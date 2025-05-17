@@ -1,18 +1,14 @@
-import tensorflow as tf
+from utils import find_latest_checkpoint
+import keras
 from config import Config
 from .gpt_model import GPTModel
-import keras
-
-from utils import find_latest_checkpoint
 
 
 SparseCategoricalCrossentropy = keras.losses.SparseCategoricalCrossentropy
+load_model = keras.models.load_model
 
 
-print(Config.DATA_PATH)
-
-
-class ModlelOrcestrate:
+class ModelFactory:
 
     def __init__(self, vocab_size):
         self.vocab_size = vocab_size
@@ -29,7 +25,7 @@ class ModlelOrcestrate:
             print(
                 f"[INFO] loading from checkoint: {self.checkpoint_path} -  {self.last_epoch}"
             )
-            self.model = tf.keras.models.load_model(
+            self.model = load_model(
                 self.checkpoint_path, custom_objects={"GPTModel": GPTModel}
             )
         else:
