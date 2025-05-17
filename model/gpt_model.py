@@ -9,8 +9,18 @@ Dense = keras.layers.Dense
 
 
 class GPTModel(Model):
-    def __init__(self, vocab_size, maxlen, num_layers, embed_dim, num_heads, ff_dim):
-        super().__init__()
+
+    def __init__(
+        self, vocab_size, maxlen, num_layers, embed_dim, num_heads, ff_dim, **kwarg
+    ):
+        super().__init__(**kwarg)
+        self.vocab_size = vocab_size
+        self.maxlen = maxlen
+        self.num_layers = num_layers
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.ff_dim = ff_dim
+
         self.token_emb = Embedding(input_dim=vocab_size, output_dim=embed_dim)
         self.pos_emb = Embedding(input_dim=maxlen, output_dim=embed_dim)
 
@@ -33,3 +43,31 @@ class GPTModel(Model):
         x = x[:, -1, :]  # Берём только последний токен
         logits = self.final_dense(x)
         return logits
+
+    def get_config(self):
+        # Start with parent config
+        config = super().get_config()
+        # Add custom config fields
+        config.update(
+            {
+                "vocab_size": self.vocab_size,
+                "maxlen": self.maxlen,
+                "num_layers": self.num_layers,
+                "embed_dim": self.embed_dim,
+                "num_heads": self.num_heads,
+                "ff_dim": self.ff_dim,
+            }
+        )
+        return config
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(
+            vocab_size=config.pop("vocab_size"),
+            maxlen=config.pop("maxlen"),
+            num_layers=config.pop("num_layers"),
+            embed_dim=config.pop("embed_dim"),
+            num_heads=config.pop("num_heads"),
+            ff_dim=config.pop("ff_dim"),
+            **config  # remaining args like name, trainable, etc.
+        )
