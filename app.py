@@ -1,5 +1,6 @@
 import gradio as gr
 import subprocess
+import os
 
 
 def run_training():
@@ -9,23 +10,36 @@ def run_training():
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
-        universal_newlines=True,
     )
 
     logs = ""
     for line in process.stdout:
         logs += line
-        yield logs
+        yield logs  # stream training logs
 
     process.stdout.close()
     process.wait()
-    yield logs
+    yield logs  # final output
+
+
+# 2. File download function (returns saved files)
+def get_artifacts():
+    return ["saved/gpt.weights.h5", "saved/gpt_config.json", "saved/tokenizer.json"]
 
 
 with gr.Blocks() as demo:
-    gr.Markdown("## Обучение GPT с логами в реальном времени")
-    status = gr.Textbox(label="Лог обучения", lines=20, interactive=False)
-    start_button = gr.Button("Начать обучение")
-    start_button.click(fn=run_training, outputs=status)
+    gr.Markdown("## 🚀 Train GPT Model and Download Files")
+
+    logs_box = gr.Textbox(label="Training Logs", lines=20)
+    train_btn = gr.Button("Start Training")
+
+    gr.Markdown("### 📦 Download Trained Files")
+    file_download = gr.File(
+        label="Download Trained Files", interactive=True, file_types=[".json", ".h5"]
+    )
+    download_btn = gr.Button("Get Files")
+
+    train_btn.click(fn=run_training, outputs=logs_box)
+    download_btn.click(fn=get_artifacts, outputs=file_download)
 
 demo.launch()

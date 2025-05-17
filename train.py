@@ -14,7 +14,7 @@ NUM_LAYERS = 2
 EMBED_DIM = 64
 NUM_HEADS = 4
 FF_DIM = 128
-EPOCHS = 500
+EPOCHS = 10
 BATCH_SIZE = 4
 
 # Загрузка и подготовка данных
