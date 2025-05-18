@@ -29,7 +29,7 @@ class ModelFactory:
                 self.checkpoint_path, custom_objects={"GPTModel": GPTModel}
             )
         else:
-            print("[INFO] Чекпоинт не найден. Начинаю с нуля.")
+            print("[INFO] Checkpoint not  found.")
             self.model = GPTModel(
                 vocab_size=self.vocab_size,
                 maxlen=Config.MAXLEN,

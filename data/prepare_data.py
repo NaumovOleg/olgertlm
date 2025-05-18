@@ -1,6 +1,10 @@
 import numpy as np
+from pathlib import Path
 from tensorflow.keras.preprocessing.text import Tokenizer
 from config import Config
+from tensorflow.keras.preprocessing.text import tokenizer_from_json
+
+tokenizer_path = Path(f"{Config.SAVED_MODEL_PATH}/tokenizer.json")
 
 
 def load_data(file_path, maxlen):
@@ -11,6 +15,16 @@ def load_data(file_path, maxlen):
     with open(file_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
     text = " ".join([line.strip() for line in lines]).lower()
+
+    if tokenizer_path.exists():
+        with tokenizer_path.open("r", encoding="utf-8") as f:
+            tokenizer_json = f.read()
+        tokenizer = tokenizer_from_json(tokenizer_json)
+        print("-------------->Loading tokenizer from file")
+    else:
+        print("-------------->Creating new tokenizer from text")
+        tokenizer = Tokenizer()
+        tokenizer.fit_on_texts([text])
 
     tokenizer = Tokenizer()
     tokenizer.fit_on_texts([text])

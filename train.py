@@ -10,7 +10,6 @@ model_factory = ModelFactory(vocab_size)
 model_factory.load()
 model_factory.compile()
 
-
 print("Start fitting------------------>...")
 model_factory.model.fit(
     X,

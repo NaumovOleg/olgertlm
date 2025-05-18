@@ -13,14 +13,10 @@ Layer = keras.layers.Layer
 class TransformerBlock(Layer):
     def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1):
         super().__init__()
-        # Многоголовое внимание
         self.att = MultiHeadAttention(num_heads=num_heads, key_dim=embed_dim)
-        # Feed-forward network
         self.ffn = Sequential([Dense(ff_dim, activation="relu"), Dense(embed_dim)])
-        # Нормализация
         self.norm1 = LayerNormalization(epsilon=1e-6)
         self.norm2 = LayerNormalization(epsilon=1e-6)
-        # Dropout для регуляризации
         self.dropout1 = Dropout(rate)
         self.dropout2 = Dropout(rate)
 
