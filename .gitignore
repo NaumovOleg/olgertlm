@@ -3,4 +3,5 @@ saved/*.h5
 saved/*.json
 **/__pycache__/
 __pycache__/
-checkpoints.env
+checkpoints
+.env
