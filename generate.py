@@ -13,8 +13,8 @@ ff_dim = config["ff_dim"]
 num_layers = config["num_layers"]
 
 # Восстанавливаем токенизатор
-with open("./saved/tokenizer.json", "r", encoding="utf-8") as f:
-    tokenizer_json = f.read()
+# with open("./saved/tokenizer.json", "r", encoding="utf-8") as f:
+#     tokenizer_json = f.read()
 tokenizer = tokenizer_from_json(tokenizer_json)
 
 # Создаём модель и загружаем веса
@@ -33,7 +33,7 @@ model.load_weights("./saved/gpt.weights.h5")
 prompt = "Hello how are"
 print("Prompt:", prompt)
 input_ids = tokenizer.texts_to_sequences([prompt.lower()])[0]
-input_ids = [id for id in input_ids if id != 0]  # удаляем возможные паддинги
+input_ids = [id for id in input_ids if id != 0]
 
 # Генерируем 20 токенов
 for _ in range(20):
