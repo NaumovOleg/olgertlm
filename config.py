@@ -16,7 +16,7 @@ class Config:
     LOCAL_CHECKPOINT_DIR = os.getenv(
         "LOCAL_CHECKPOINT_DIR", "/opt/ml/model/checkpoints"
     )
-    SAVED_MODEL_PATH = os.getenv("SAVED_MODEL_PATH", "/opt/ml/model")
+    SAVED_MODEL_PATH = os.getenv("SAVED_MODEL_PATH", "/opt/ml/model/saved")
     SAVED_MODEL_PATH_FULL = os.getenv(
         "SAVED_MODEL_PATH_FULL", "/opt/ml/model/gpt.weights.keras"
     )
