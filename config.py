@@ -15,3 +15,4 @@ class Config:
     BATCH_SIZE = int(os.getenv("BATCH_SIZE", "4"))
     LOCAL_CHECKPOINT_DIR = os.getenv("LOCAL_CHECKPOINT_DIR", "")
     SAVED_MODEL_PATH = os.getenv("SAVED_MODEL_PATH", "")
+    SAVED_MODEL_PATH_FULL = os.getenv("SAVED_MODEL_PATH_FULL", "")

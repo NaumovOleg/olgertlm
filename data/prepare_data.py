@@ -1,8 +1,7 @@
 import numpy as np
 from pathlib import Path
-from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer, tokenizer_from_json
 from config import Config
-from tensorflow.keras.preprocessing.text import tokenizer_from_json
 
 tokenizer_path = Path(f"{Config.SAVED_MODEL_PATH}/tokenizer.json")
 
@@ -37,7 +36,7 @@ def load_data(file_path, maxlen):
     X = np.array(X)
     y = np.array(y)
     print(
-        f"Последовательность токенов: {len(sequence)}, примеров: {len(X)}, vocab_size: {vocab_size}"
+        f"Token sequences: {len(sequence)}, примеров: {len(X)}, vocab_size: {vocab_size}"
     )
 
     tokenizer_json = tokenizer.to_json()

@@ -11,7 +11,7 @@ model_factory.load()
 model_factory.compile()
 
 print("Start fitting------------------>...")
-model_factory.model.fit(
+history = model_factory.model.fit(
     X,
     y,
     epochs=Config.EPOCHS,
@@ -20,6 +20,7 @@ model_factory.model.fit(
     initial_epoch=model_factory.last_epoch,
 )
 
-model_factory.model.save("./saved/gpt.weights.keras")
 
-print("Модель обучена и сохранена. Готова к генерации текста.")
+model_factory.model.save(Config.SAVED_MODEL_PATH_FULL)
+
+print("Model saved --------------------------->")
