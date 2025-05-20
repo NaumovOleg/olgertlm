@@ -2,7 +2,9 @@ from data import load_data
 from model import ModelFactory
 from callbacks import HFPushCallback
 from config import Config
+import tensorflow as tf
 
+print("Available devices:", tf.config.list_physical_devices())
 
 X, y, tokenizer, vocab_size = load_data(Config.DATA_PATH, maxlen=Config.MAXLEN)
 

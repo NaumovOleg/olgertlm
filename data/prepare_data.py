@@ -25,8 +25,6 @@ def load_data(file_path, maxlen):
         tokenizer = Tokenizer()
         tokenizer.fit_on_texts([text])
 
-    tokenizer = Tokenizer()
-    tokenizer.fit_on_texts([text])
     sequence = tokenizer.texts_to_sequences([text])[0]
     vocab_size = len(tokenizer.word_index) + 1
     X, y = [], []
