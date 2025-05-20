@@ -24,6 +24,14 @@ def load_data(file_path, maxlen):
         print("-------------->Creating new tokenizer from text")
         tokenizer = Tokenizer()
         tokenizer.fit_on_texts([text])
+        tokenizer_json = tokenizer.to_json()
+
+        with open(
+            f"{Config.SAVED_MODEL_PATH}/tokenizer.json",
+            "w",
+            encoding="utf-8",
+        ) as f:
+            f.write(tokenizer_json)
 
     sequence = tokenizer.texts_to_sequences([text])[0]
     vocab_size = len(tokenizer.word_index) + 1
@@ -36,14 +44,5 @@ def load_data(file_path, maxlen):
     print(
         f"Token sequences: {len(sequence)}, примеров: {len(X)}, vocab_size: {vocab_size}"
     )
-
-    tokenizer_json = tokenizer.to_json()
-
-    with open(
-        f"{Config.SAVED_MODEL_PATH}/tokenizer.json",
-        "w",
-        encoding="utf-8",
-    ) as f:
-        f.write(tokenizer_json)
 
     return X, y, tokenizer, vocab_size
