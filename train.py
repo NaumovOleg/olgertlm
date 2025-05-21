@@ -1,6 +1,5 @@
-from data import load_data
-from model import ModelFactory
-from callbacks import HFPushCallback
+from src.data import load_data
+from src.model import ModelFactory, HFPushCallback
 from config import Config
 import tensorflow as tf
 
@@ -20,9 +19,10 @@ history = model_factory.model.fit(
     batch_size=Config.BATCH_SIZE,
     callbacks=[HFPushCallback()],
     initial_epoch=model_factory.last_epoch,
+    verbose=1,
 )
 
 
-model_factory.model.save(Config.SAVED_MODEL_PATH_FULL)
+model_factory.model.save(f"{Config.SAVED_MODEL_DIR}/gpt.model.keras")
 
 print("Model saved --------------------------->")

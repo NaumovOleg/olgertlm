@@ -13,10 +13,12 @@ class Config:
     FF_DIM = int(os.getenv("FF_DIM", "128"))
     EPOCHS = int(os.getenv("EPOCHS", "500"))
     BATCH_SIZE = int(os.getenv("BATCH_SIZE", "4"))
-    LOCAL_CHECKPOINT_DIR = os.getenv(
-        "LOCAL_CHECKPOINT_DIR", "/opt/ml/model/checkpoints"
+    CHECKPOINT_DIR = os.getenv("CHECKPOINT_DIR", "/artifacts/model/checkpoints")
+    SAVE_CHECKPOINT_DIR = os.getenv(
+        "SAVE_CHECKPOINT_DIR", "/artifacts/model/checkpoints"
     )
-    SAVED_MODEL_PATH = os.getenv("SAVED_MODEL_PATH", "/opt/ml/model/saved")
-    SAVED_MODEL_PATH_FULL = os.getenv(
-        "SAVED_MODEL_PATH_FULL", "/opt/ml/model/gpt.weights.keras"
-    )
+
+    MODEL_DIR = os.getenv("MODEL_DIR", "/artifacts/model")
+    SAVED_MODEL_DIR = os.getenv("SAVED_MODEL_DIR", "/artifacts/model")
+    TOKENIZER_DIR = os.getenv("TOKENIZER_DIR", "/artifatcs/tokenizer")
+    SAVE_TOKENIZER_DIR = os.getenv("SAVE_TOKENIZER_DIR", "/artifatcs/tokenizer")

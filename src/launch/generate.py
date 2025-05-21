@@ -29,22 +29,19 @@ model = GPTModel(
 model.build(input_shape=(None, maxlen))
 model.load_weights("./saved/gpt.weights.h5")
 
-# Генерация текста
+
 prompt = "Hello how are"
 print("Prompt:", prompt)
 input_ids = tokenizer.texts_to_sequences([prompt.lower()])[0]
 input_ids = [id for id in input_ids if id != 0]
 
-# Генерируем 20 токенов
+
 for _ in range(20):
-    seq = input_ids[-maxlen:]  # берём последние maxlen токенов
+    seq = input_ids[-maxlen:]
     seq_input = np.array([seq])
     logits = model.predict(seq_input)[0]  # (seq_len, vocab_size)
-    next_id = int(
-        np.argmax(logits[len(seq) - 1])
-    )  # берём предсказание для последней позиции
+    next_id = int(np.argmax(logits[len(seq) - 1]))
     input_ids.append(next_id)
 
-# Раскодируем сгенерированную последовательность
 generated_text = " ".join(tokenizer.index_word.get(id, "") for id in input_ids)
 print("Generated:", generated_text)

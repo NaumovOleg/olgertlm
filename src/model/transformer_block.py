@@ -11,6 +11,8 @@ Layer = keras.layers.Layer
 
 
 class TransformerBlock(Layer):
+    """TransformerBlock"""
+
     def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1):
         super().__init__()
         self.att = MultiHeadAttention(num_heads=num_heads, key_dim=embed_dim)

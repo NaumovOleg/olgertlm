@@ -1,4 +1,4 @@
-from utils import find_latest_checkpoint
+from ..utils import find_latest_checkpoint
 import keras
 from config import Config
 from .gpt_model import GPTModel
