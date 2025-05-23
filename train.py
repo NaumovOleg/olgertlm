@@ -3,6 +3,9 @@ from src.model import ModelFactory, HFPushCallback
 from config import Config
 import tensorflow as tf
 
+print("TensorFlow version:", tf.__version__)
+print("Built with CUDA:", tf.test.is_built_with_cuda())
+print("GPU device name:", tf.test.gpu_device_name())
 print("Available devices:", tf.config.list_physical_devices())
 
 X, y, tokenizer, vocab_size = load_data(Config.DATA_PATH, maxlen=Config.MAXLEN)

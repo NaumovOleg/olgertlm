@@ -4,6 +4,9 @@ import re
 
 
 def find_latest_checkpoint():
+    if not os.path.exists(Config.CHECKPOINT_DIR):
+        return None, 0
+        
     files = os.listdir(Config.CHECKPOINT_DIR)
     checkpoint_files = [f for f in files if re.match(r"model_epoch_(\d+)\.keras", f)]
     if not checkpoint_files:

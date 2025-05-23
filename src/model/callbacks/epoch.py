@@ -9,7 +9,7 @@ Sequential = keras.Sequential
 
 class HFPushCallback(Callback):
 
-    def __init__(self, save_dir=Config.CHECKPOINT_DIR):
+    def __init__(self, save_dir=Config.SAVE_CHECKPOINT_DIR):
         super().__init__()
         self.save_dir = save_dir
         os.makedirs(self.save_dir, exist_ok=True)

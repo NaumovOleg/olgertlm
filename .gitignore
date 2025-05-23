@@ -4,3 +4,4 @@ __pycache__/
 .env
 artifacts/tokenizer/tokenizer.json
 **/*.keras
+**/.DS_Store
