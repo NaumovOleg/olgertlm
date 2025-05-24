@@ -10,6 +10,8 @@ load_model = keras.models.load_model
 
 class ModelFactory:
 
+    model: GPTModel
+
     def __init__(self, vocab_size):
         self.vocab_size = vocab_size
         checkpoint_path, last_epoch = find_latest_checkpoint()
