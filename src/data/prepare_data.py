@@ -58,6 +58,10 @@ def load_data(file_path, maxlen):
         y.append(sequence[i + maxlen])
     X = np.array(X)
     y = np.array(y)
+    if X.shape[1] < maxlen:
+        X = np.pad(X, ((0, 0), (0, maxlen - X.shape[1])), 'constant')
+        y = np.pad(y, ((0, 0), (0, maxlen - y.shape[1])), 'constant')
+        
     print(
         f"Token sequences: {len(sequence)}, samples: {len(X)}, vocab_size: {vocab_size}"
     )

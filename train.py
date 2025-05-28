@@ -20,7 +20,7 @@ history = model_factory.model.fit(
     y,
     epochs=Config.EPOCHS,
     batch_size=Config.BATCH_SIZE,
-    callbacks=[HFPushCallback()],
+    # callbacks=[HFPushCallback()],
     initial_epoch=model_factory.last_epoch,
     verbose=1,
 )
