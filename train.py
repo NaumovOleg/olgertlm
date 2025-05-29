@@ -1,31 +1,14 @@
-from src.data import load_data
-from src.model import ModelFactory, HFPushCallback
 from config import Config
-import tensorflow as tf
+from src.data import CustomTokenizer, create_dataset, load_and_preprocess_text
 
-print("TensorFlow version:", tf.__version__)
-print("Built with CUDA:", tf.test.is_built_with_cuda())
-print("GPU device name:", tf.test.gpu_device_name())
-print("Available devices:", tf.config.list_physical_devices())
+text = load_and_preprocess_text(Config.DATASET_PATH)
 
-X, y, tokenizer, vocab_size = load_data(Config.DATA_PATH, maxlen=Config.MAXLEN)
-
-model_factory = ModelFactory(vocab_size)
-model_factory.load()
-model_factory.compile()
-
-print("Start fitting------------------>...")
-history = model_factory.model.fit(
-    X,
-    y,
-    epochs=Config.EPOCHS,
-    batch_size=Config.BATCH_SIZE,
-    # callbacks=[HFPushCallback()],
-    initial_epoch=model_factory.last_epoch,
-    verbose=1,
+tokenizer = CustomTokenizer(
+    Config.VOCAB_PATH, text, vocab_size=20000, sequence_length=100
 )
+tokenized_text = tokenizer([tokenizer.text])[0]
+
+dataset = create_dataset(tokenizer.text, tokenizer)
 
 
-model_factory.model.save(f"{Config.SAVED_MODEL_DIR}/gpt.model.keras")
-
-print("Model saved --------------------------->")
+print(dataset)
