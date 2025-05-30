@@ -4,6 +4,7 @@ import keras
 SparseCategoricalCrossentropy = keras.losses.SparseCategoricalCrossentropy
 
 
+@keras.saving.register_keras_serializable()
 def loss_function(real, pred):
     mask = tf.math.logical_not(tf.math.equal(real, 0))
     loss_obj = SparseCategoricalCrossentropy(from_logits=True, reduction="none")

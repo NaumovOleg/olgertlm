@@ -20,7 +20,7 @@ class TextGenerator:
 
             text_generated.append(predicted_id.numpy()[0][0])
             input_indices = tf.concat([input_indices, predicted_id], axis=-1)
-            input_indices = input_indices[:, -100:]  # Ограничиваем длину контекста
+            input_indices = input_indices[:, -100:]
 
         generated_text = self.tokenizer.sequences_to_texts([text_generated])[0]
         return start_string + generated_text

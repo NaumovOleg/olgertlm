@@ -15,6 +15,6 @@ class Config:
     BATCH_SIZE = int(os.getenv("BATCH_SIZE", "64"))
     SEQ_LENGTH = int(os.getenv("SEQ_LENGTH", "100"))
     EPOCHS = int(os.getenv("EPOCHS", "10"))
-    SAVED_MODEL_DIR = os.getenv("SAVED_MODEL_DIR", "/opt/ml/model/artifacts/model")
+    SAVED_MODEL_DIR = os.getenv("SAVED_MODEL_DIR", "./artifacts/model")
     DATASET_PATH = os.getenv("DATASET_PATH", "./datasets/big.txt")
     VOCAB_PATH = os.getenv("VOCAB_PATH", "./artifacts/tokenizer")

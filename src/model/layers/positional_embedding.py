@@ -5,10 +5,25 @@ import numpy as np
 Layer = keras.layers.Layer
 
 
+@keras.saving.register_keras_serializable()
 class PositionalEmbedding(Layer):
     def __init__(self, max_len, d_model):
         super().__init__()
+        self.max_len = max_len
+        self.d_model = d_model
         self.pos_encoding = self.positional_encoding(max_len, d_model)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "max_len": self.max_len,
+            "d_model": self.d_model,
+        })
+        return config
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
 
     def positional_encoding(self, max_len, d_model):
         angle_rates = 1 / np.power(

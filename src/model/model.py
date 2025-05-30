@@ -11,14 +11,30 @@ Dropout = keras.layers.Dropout
 Model = keras.models.Model
 
 
+@keras.saving.register_keras_serializable()
 class GPT(Model):
     """GPT"""
 
     def __init__(
-        self, vocab_size, max_len, d_model, num_heads, dff, num_layers, rate=0.1
+        self,
+        vocab_size,
+        max_len,
+        d_model,
+        num_heads,
+        dff,
+        num_layers,
+        rate=0.1,
+        **kwargs
     ):
-        super().__init__()
+        super().__init__(**kwargs)
+        self.vocab_size = vocab_size
+        self.max_len = max_len
         self.d_model = d_model
+        self.num_heads = num_heads
+        self.dff = dff
+        self.num_layers = num_layers
+        self.rate = rate
+
         self.token_embed = Embedding(vocab_size, d_model)
         self.pos_embed = PositionalEmbedding(max_len, d_model)
         self.dropout = Dropout(rate)
@@ -28,6 +44,37 @@ class GPT(Model):
         ]
 
         self.final_layer = Dense(vocab_size)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update(
+            {
+                "vocab_size": self.vocab_size,
+                "max_len": self.max_len,
+                "d_model": self.d_model,
+                "num_heads": self.num_heads,
+                "dff": self.dff,
+                "num_layers": self.num_layers,
+                "rate": self.rate,
+                "name": "Gpt",
+            }
+        )
+        return config
+
+    @classmethod
+    def from_config(cls, config):
+        # Extract our custom parameters
+        model_config = {
+            "vocab_size": config.pop("vocab_size"),
+            "max_len": config.pop("max_len"),
+            "d_model": config.pop("d_model"),
+            "num_heads": config.pop("num_heads"),
+            "dff": config.pop("dff"),
+            "num_layers": config.pop("num_layers"),
+            "rate": config.pop("rate"),
+        }
+        # Pass remaining config to parent class
+        return cls(**model_config, **config)
 
     def create_padding_mask(self, seq):
         seq = tf.cast(tf.math.equal(seq, 0), tf.float32)

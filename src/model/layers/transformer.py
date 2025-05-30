@@ -8,11 +8,17 @@ Sequential = keras.models.Sequential
 Dropout = keras.layers.Dropout
 
 
+@keras.saving.register_keras_serializable()
 class TransformerBlock(Layer):
     """TransformerBlock"""
 
     def __init__(self, d_model, num_heads, dff, rate=0.1):
         super().__init__()
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.dff = dff
+        self.rate = rate
+        
         self.mha = MultiHeadAttention(num_heads=num_heads, key_dim=d_model // num_heads)
         self.ffn = Sequential([Dense(dff, activation="relu"), Dense(d_model)])
 
@@ -21,6 +27,20 @@ class TransformerBlock(Layer):
 
         self.dropout1 = Dropout(rate)
         self.dropout2 = Dropout(rate)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "d_model": self.d_model,
+            "num_heads": self.num_heads,
+            "dff": self.dff,
+            "rate": self.rate,
+        })
+        return config
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
 
     def call(self, x, training, mask):
         # Multi-head attention
