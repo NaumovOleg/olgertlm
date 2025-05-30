@@ -5,7 +5,7 @@ load_dotenv()
 
 
 class Config:
-    DATASET_PATH = os.getenv("FILE_PATH", "./datasets/small.txt")
+    DATASET_PATH = os.getenv("DATASET_PATH", "./datasets/sample_data.txt")
     VOCAB_PATH = os.getenv("VOCAB_PATH", "./artifacts/tokenizer")
     VOCAB_SIZE = int(os.getenv("VOCAB_SIZE", "20000"))
     MAX_LEN = int(os.getenv("MAX_LEN", "512"))

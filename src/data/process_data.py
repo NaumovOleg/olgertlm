@@ -27,5 +27,7 @@ def create_dataset(text, tokenizer, seq_length=100, batch_size=32):
     return (
         dataset.shuffle(10000)
         .batch(batch_size, drop_remainder=True)
+        .cache()  # Add caching
+        .repeat()  # Add repeat
         .prefetch(tf.data.AUTOTUNE)
     )

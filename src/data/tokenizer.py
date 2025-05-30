@@ -16,7 +16,6 @@ class CustomTokenizer(TextVectorization):
         self.vocab_path = f"{vocab_path}/vocab.txt"
         self.vocab_size = vocab_size
         self.sequence_length = sequence_length
-        self.text = text
         if os.path.exists(self.vocab_path):
             print(f"Loading from file:{self.vocab_path}")
             self.load_vocab(self.vocab_path)

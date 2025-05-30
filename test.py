@@ -219,6 +219,8 @@ if __name__ == "__main__":
 
     dataset = create_dataset(text, tokenizer, SEQ_LENGTH, BATCH_SIZE)
 
+    print("+++++++", len(dataset))
+
     # Создание модели
     model = GPT(
         vocab_size=vocab_size,
