@@ -2,43 +2,20 @@ from config import Config
 import keras
 from src.data import CustomTokenizer, create_dataset, load_and_preprocess_text
 from src.model import GPT
-from src.model.utils import CustomSchedule, loss_function
+from src.model.utils import CustomSchedule, loss_function, TextGenerator
 import os
 
 Adam = keras.optimizers.Adam
 
-print(f"Dataset path: {Config.DATASET_PATH}")
-print(f"File exists: {os.path.exists(Config.DATASET_PATH)}")
-
-# Load and preprocess text
 text = load_and_preprocess_text(Config.DATASET_PATH)
-print(f"Raw text length: {len(text)}")
-print(f"First 100 characters: {text[:100]}")
-
-# Create tokenizer
 tokenizer = CustomTokenizer(Config.VOCAB_PATH, text, vocab_size=20000)
-
-# Tokenize text
 tokenized_text = tokenizer([text])[0]
-print(f"Tokenized text shape: {tokenized_text.shape}")
-print(f"Tokenized text first 10 tokens: {tokenized_text[:10]}")
-
 num_tokens = len(tokenized_text)
-print(f"Number of tokens: {num_tokens}")
-
-# Calculate steps
 total_sequences = len(tokenized_text) - Config.SEQ_LENGTH - 1
 steps_per_epoch = max(1, total_sequences // Config.BATCH_SIZE)
 
-print(f"Text length: {len(tokenized_text)}")
-print(f"Number of sequences: {total_sequences}")
-print(f"Steps per epoch: {steps_per_epoch}")
-print(f"Batch size: {Config.BATCH_SIZE}")
-
-# Create dataset
 dataset = create_dataset(text, tokenizer, Config.SEQ_LENGTH, Config.BATCH_SIZE)
 vocab_size = tokenizer.get_vocab_size()
-print(f"Vocabulary size: {vocab_size}")
 
 
 model = GPT(
@@ -58,3 +35,21 @@ model.compile(optimizer=optimizer, loss=loss_function)
 
 
 history = model.fit(dataset.repeat(), verbose=1, epochs=Config.EPOCHS)
+
+configs = {
+    "raw token length": len(text),
+    "first 100": text[:100],
+    "token numbers": num_tokens,
+    "text shape": tokenized_text.shape,
+    "first 10 tokens": tokenized_text[:10],
+    "tokenized text lenght": len(tokenized_text),
+    "total sequences": total_sequences,
+    "steps per epoch": steps_per_epoch,
+    "vocab size": vocab_size,
+}
+
+print(configs)
+
+
+generator = TextGenerator(model, tokenizer, temperature=0.7)
+print(generator.generate_text("the meaning of life is", num_generate=100))

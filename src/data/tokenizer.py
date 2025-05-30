@@ -16,6 +16,8 @@ class CustomTokenizer(TextVectorization):
         self.vocab_path = f"{vocab_path}/vocab.txt"
         self.vocab_size = vocab_size
         self.sequence_length = sequence_length
+        self.word_index = {}
+        self.index_word = {}
         if os.path.exists(self.vocab_path):
             print(f"Loading from file:{self.vocab_path}")
             self.load_vocab(self.vocab_path)
@@ -23,6 +25,10 @@ class CustomTokenizer(TextVectorization):
             print(f"saving to file:{self.vocab_path}")
             self.adapt([text])
             self.save_vocab(self.vocab_path)
+
+        vocabulary = self.get_vocabulary()
+        self.word_index = {word: idx for idx, word in enumerate(vocabulary)}
+        self.index_word = {idx: word for idx, word in enumerate(vocabulary)}
 
     def load_vocab(self, vocab_file_path):
         """load_vocab"""
@@ -41,3 +47,11 @@ class CustomTokenizer(TextVectorization):
 
     def get_vocab_size(self):
         return len(self.get_vocabulary())
+
+    def sequences_to_texts(self, sequences):
+        """Convert sequences of token indices to text strings"""
+        result = []
+        for seq in sequences:
+            words = [self.index_word.get(i, "") for i in seq]
+            result.append(" ".join(filter(None, words)))
+        return result
