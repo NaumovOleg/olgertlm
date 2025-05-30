@@ -3,7 +3,7 @@ import keras
 from src.data import CustomTokenizer, create_dataset, load_and_preprocess_text
 from src.model import GPT
 from src.model.utils import CustomSchedule, loss_function, TextGenerator
-
+import tensorflow as tf
 
 Adam = keras.optimizers.Adam
 
@@ -31,7 +31,7 @@ model = GPT(
 
 learning_rate = CustomSchedule(Config.D_MODEL)
 optimizer = Adam(learning_rate, beta_1=0.9, beta_2=0.98, epsilon=1e-9)
-model.compile(optimizer=optimizer, loss=loss_function)
+model.compile(optimizer=optimizer, loss=loss_function, metrics=["accuracy"])
 
 configs = {
     "raw token length": len(text),
@@ -45,9 +45,33 @@ configs = {
 
 print(configs)
 
-history = model.fit(dataset.repeat(), verbose="2", epochs=Config.EPOCHS)
+print(Config.BATCH_SIZE, Config.SEQ_LENGTH)
+
+history = model.fit(
+    dataset.repeat(), epochs=Config.EPOCHS, steps_per_epoch=steps_per_epoch
+)
 model.save(f"{Config.SAVED_MODEL_DIR}/model.keras")
 
+# dummy_input = tf.zeros(
+#     (1, Config.SEQ_LENGTH)
+# )  # Create a dummy batch with correct shape
+# model(dummy_input, training=False)
+# model.load_weights(f"{Config.SAVED_MODEL_DIR}/model.keras")
 
 generator = TextGenerator(model, tokenizer, temperature=0.7)
-print(generator.generate_text("the meaning of life is", num_generate=100))
+print(generator.generate_text("I should tell", num_generate=100))
+
+test_prompts = [
+    "I should tell ",
+    "Where senators shall mingle tears ",
+    "Once upon a time ",
+    "Hello ",
+]
+
+for temp in [0.5, 0.7, 1.0]:
+    print(f"\nTemperature: {temp}")
+    generator = TextGenerator(model, tokenizer, temperature=temp)
+    for prompt in test_prompts:
+        generated_text = generator.generate_text(prompt, num_generate=50)
+        print(f"Prompt: '{prompt}'")
+        print(f"Generated: '{generated_text}'\n")

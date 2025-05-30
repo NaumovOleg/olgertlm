@@ -17,3 +17,12 @@ class CustomSchedule(LearningRateSchedule):
         arg1 = tf.math.rsqrt(step)
         arg2 = step * (self.warmup_steps**-1.5)
         return tf.math.rsqrt(self.d_model) * tf.math.minimum(arg1, arg2)
+
+    def get_config(self):
+        """Required for serialization of the learning rate schedule"""
+        return {"d_model": float(self.d_model), "warmup_steps": self.warmup_steps}
+
+    @classmethod
+    def from_config(cls, config):
+        """Required for deserialization of the learning rate schedule"""
+        return cls(**config)
